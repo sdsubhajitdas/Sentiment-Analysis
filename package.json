@@ -1,0 +1,15 @@
+{
+  "name": "sentimentanalysis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "clear && concurrently \"npm run dev-server --prefix backend\" \"npm run start --prefix ui\" \"npm run start --prefix dashboard\"",
+    "setup": "concurrently \"npm i --prefix backend\" \"npm i --prefix ui\" \"npm i --prefix dashboard\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
