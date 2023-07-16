@@ -1,8 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import QueryProvider from "./QueryContextProvider";
+import { AuthenticationProvider } from "./AuthenticationContextProvider";
 
 export default function Providers({ children }) {
-  const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <AuthenticationProvider>
+      <QueryProvider>{children}</QueryProvider>
+    </AuthenticationProvider>
   );
 }

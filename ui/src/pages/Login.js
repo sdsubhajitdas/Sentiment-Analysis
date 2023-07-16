@@ -1,12 +1,19 @@
-import { Link } from "react-router-dom";
-import { useFormik } from "formik";
-import { loginFormSchema } from "../utlis/validation";
-import { useMutation } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
 import axios from "../api/axios";
+import { useEffect } from "react";
+import { useFormik } from "formik";
+import useAuth from "../hooks/useAuth";
+import { Loader2 } from "lucide-react";
 import Alert from "../components/Alert";
+import { Link, Navigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { loginFormSchema } from "../utlis/validation";
 
 export default function Login() {
+  let {
+    authentication: { isAuthenticated },
+    setAuthentication,
+  } = useAuth();
+
   const { data, error, isError, isLoading, mutate } = useMutation({
     mutationFn: (loginFormData) => {
       return axios.post("/auth/login", loginFormData);
@@ -23,6 +30,20 @@ export default function Login() {
       mutate(values);
     },
   });
+
+  useEffect(() => {
+    if (data) {
+      setAuthentication((previous) => ({
+        ...previous,
+        isAuthenticated: true,
+        user: data.data,
+      }));
+    }
+  }, [data, setAuthentication]);
+
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="container fixed max-w-2xl -translate-x-1/2 -translate-y-1/2 top-1/3 left-1/2">
