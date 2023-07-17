@@ -1,14 +1,16 @@
 import { useFormik } from "formik";
 import { newQueryFormSchema } from "../utils/validation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import Alert from "../components/Alert";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 export default function NewQueryForm() {
   const axios = useAxiosPrivate();
+  const queryClient = useQueryClient();
   const { error, isError, isLoading, isSuccess, mutate } = useMutation({
     mutationFn: (newQueryFormData) => {
+      queryClient.invalidateQueries({ queryKey: ["listQueries"] });
       return axios.post("/query", newQueryFormData);
     },
   });
