@@ -4,6 +4,7 @@ const SidebarNavigationContext = createContext({});
 export const sidebarNavigationTypes = {
   DASHBOARD: "dashboard",
   NEW_QUERY: "new_query",
+  QUERY_RESULT: "query_result",
 };
 
 export function SidebarNavigationProvider({ children }) {

@@ -5,9 +5,10 @@ import QueryListWrapper from "../components/QueriesList";
 import NewQueryButton from "../components/NewQueryButton";
 import useSidebarNavigation from "../hooks/useSidebarNavigation";
 import { sidebarNavigationTypes } from "../context/SidebarNavigationContextProvider";
+import QueryResult from "../components/QueryResult";
 export default function Home() {
   let {
-    sidebarNavigation: { type },
+    sidebarNavigation: { type, query },
   } = useSidebarNavigation();
 
   return (
@@ -23,6 +24,9 @@ export default function Home() {
       <div className="ml-[25%]">
         {type === sidebarNavigationTypes.DASHBOARD && <Dashboard />}
         {type === sidebarNavigationTypes.NEW_QUERY && <NewQueryForm />}
+        {type === sidebarNavigationTypes.QUERY_RESULT && (
+          <QueryResult query={query} />
+        )}
       </div>
     </div>
   );
