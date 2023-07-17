@@ -10,3 +10,7 @@ export const registerFormSchema = Yup.object({
   displayName: Yup.string().required(),
   ...loginAndRegisterCommonFields,
 });
+
+export const newQueryFormSchema = Yup.object({
+  body: Yup.string().required("Query cannot be empty"),
+});

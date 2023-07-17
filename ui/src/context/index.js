@@ -1,10 +1,13 @@
 import QueryProvider from "./QueryContextProvider";
 import { AuthenticationProvider } from "./AuthenticationContextProvider";
+import { SidebarNavigationProvider } from "./SidebarNavigationContextProvider";
 
 export default function Providers({ children }) {
   return (
     <AuthenticationProvider>
-      <QueryProvider>{children}</QueryProvider>
+      <QueryProvider>
+        <SidebarNavigationProvider>{children}</SidebarNavigationProvider>
+      </QueryProvider>
     </AuthenticationProvider>
   );
 }

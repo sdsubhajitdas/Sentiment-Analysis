@@ -2,11 +2,11 @@ import axios from "../api/axios";
 import { useEffect } from "react";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
-import useAuthentication from "../hooks/useAuthentication";
 import Alert from "../components/Alert";
 import { Link, Navigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { registerFormSchema } from "../utils/validation";
+import useAuthentication from "../hooks/useAuthentication";
 
 export default function Register() {
   let {

@@ -1,9 +1,15 @@
-import QueryListWrapper from "../components/QueriesList";
 import Separator from "../components/Separator";
-import NewQueryButton from "../components/NewQueryButton";
+import Dashboard from "../components/Dashboard";
 import NewQueryForm from "../components/NewQueryForm";
-
+import QueryListWrapper from "../components/QueriesList";
+import NewQueryButton from "../components/NewQueryButton";
+import useSidebarNavigation from "../hooks/useSidebarNavigation";
+import { sidebarNavigationTypes } from "../context/SidebarNavigationContextProvider";
 export default function Home() {
+  let {
+    sidebarNavigation: { type },
+  } = useSidebarNavigation();
+
   return (
     <div className="relative">
       {/* Side Panel */}
@@ -15,7 +21,8 @@ export default function Home() {
 
       {/* Main content Area */}
       <div className="ml-[25%]">
-        <NewQueryForm />
+        {type === sidebarNavigationTypes.DASHBOARD && <Dashboard />}
+        {type === sidebarNavigationTypes.NEW_QUERY && <NewQueryForm />}
       </div>
     </div>
   );
