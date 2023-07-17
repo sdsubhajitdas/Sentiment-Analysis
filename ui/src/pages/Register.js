@@ -2,7 +2,7 @@ import axios from "../api/axios";
 import { useEffect } from "react";
 import { useFormik } from "formik";
 import { Loader2 } from "lucide-react";
-import useAuth from "../hooks/useAuth";
+import useAuthentication from "../hooks/useAuthentication";
 import Alert from "../components/Alert";
 import { Link, Navigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
@@ -12,7 +12,7 @@ export default function Register() {
   let {
     authentication: { isAuthenticated },
     setAuthentication,
-  } = useAuth();
+  } = useAuthentication();
 
   const { data, error, isError, isLoading, mutate } = useMutation({
     mutationFn: (loginFormData) => {

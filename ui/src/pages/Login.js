@@ -1,7 +1,7 @@
 import axios from "../api/axios";
 import { useEffect } from "react";
 import { useFormik } from "formik";
-import useAuth from "../hooks/useAuth";
+import useAuthentication from "../hooks/useAuthentication";
 import { Loader2 } from "lucide-react";
 import Alert from "../components/Alert";
 import { Link, Navigate } from "react-router-dom";
@@ -12,7 +12,7 @@ export default function Login() {
   let {
     authentication: { isAuthenticated },
     setAuthentication,
-  } = useAuth();
+  } = useAuthentication();
 
   const { data, error, isError, isLoading, mutate } = useMutation({
     mutationFn: (loginFormData) => {
