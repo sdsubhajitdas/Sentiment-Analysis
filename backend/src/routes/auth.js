@@ -25,7 +25,7 @@ router.post("/register", async (req, res) => {
   newUser = extractUserData(await newUser.save());
   const accessToken = jwt.sign(newUser, process.env.ACCESS_TOKEN_SECRET);
 
-  res.send({ ...newUser, token: accessToken });
+  res.status(201).send({ ...newUser, token: accessToken });
 });
 
 router.post("/login", async (req, res) => {
@@ -45,7 +45,7 @@ router.post("/login", async (req, res) => {
   if (isPasswordCorrect) {
     user = extractUserData(user);
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-    return res.send({ ...user, token: accessToken });
+    return res.status(202).send({ ...user, token: accessToken });
   }
 
   res.status(400).send("Email or password incorrect");
