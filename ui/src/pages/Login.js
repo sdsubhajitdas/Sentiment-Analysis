@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 import Alert from "../components/Alert";
 import { Link, Navigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { loginFormSchema } from "../utlis/validation";
+import { loginFormSchema } from "../utils/validation";
 
 export default function Login() {
   let {

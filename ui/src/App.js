@@ -1,22 +1,36 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Outlet } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
-import PrivateRoute from "./components/PrivateRoute";
+import ProtectedRoutes from "./utils/ProtectedRoutes";
 import Providers from "./context";
+import Navbar from "./components/Navbar";
 
 export default function App() {
   return (
     <Providers>
-      <div className="">
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route element={<PrivateRoute />}>
+      {/* <div> */}
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route element={<ProtectedRoutes />}>
+          <Route element={<Screen />}>
             <Route path="/" element={<Home />} />
           </Route>
-        </Routes>
-      </div>
+        </Route>
+      </Routes>
+      {/* </div> */}
     </Providers>
+  );
+}
+
+function Screen() {
+  return (
+    <>
+      <Navbar />
+      {/* <div className="container"> */}
+      <Outlet />
+      {/* </div> */}
+    </>
   );
 }

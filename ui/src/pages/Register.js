@@ -6,7 +6,7 @@ import useAuth from "../hooks/useAuth";
 import Alert from "../components/Alert";
 import { Link, Navigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { registerFormSchema } from "../utlis/validation";
+import { registerFormSchema } from "../utils/validation";
 
 export default function Register() {
   let {
