@@ -12,7 +12,7 @@ const app = express();
 // Hooking up middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 
 // Hooking up routes
 app.use("/auth", authRouter);
