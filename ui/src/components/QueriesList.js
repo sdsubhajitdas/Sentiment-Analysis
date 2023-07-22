@@ -1,7 +1,7 @@
 import { Bookmark } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { Loader2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
 import useSidebarNavigation from "../hooks/useSidebarNavigation";
 import { sidebarNavigationTypes } from "../context/SidebarNavigationContextProvider";
 
@@ -36,7 +36,14 @@ function QueryList() {
 }
 
 function QueryItem({ query, selected }) {
-  let { setSidebarNavigation } = useSidebarNavigation();
+  const { setSidebarNavigation } = useSidebarNavigation();
+  const axios = useAxiosPrivate();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ _id: queryId }) => {
+      return axios.delete(`/query/${queryId}`);
+    },
+  });
+
   return (
     <li
       onClick={() =>
@@ -46,11 +53,22 @@ function QueryItem({ query, selected }) {
           query,
         }))
       }
-      className={selected ? "bg-gray-200" : ""}
+      className={selected ? "relative bg-gray-200" : ""}
     >
       <p className="px-2 py-3 text-lg truncate border-b-2 rounded-sm hover:bg-gray-200">
         {query.body}
       </p>
+      {selected && !isLoading && (
+        <button
+          className="absolute top-0 bottom-0 right-0 px-2.5 bg-gray-200 hover:bg-gray-300"
+          onClick={() => mutate(query)}
+        >
+          <Trash2 />
+        </button>
+      )}
+      {selected && isLoading && (
+        <Loader2 className="absolute top-0 bottom-0 right-0 px-2.5 bg-gray-200 rounded-full h-12 w-12 text-black animate-spin" />
+      )}
     </li>
   );
 }
