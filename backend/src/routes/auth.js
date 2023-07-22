@@ -87,7 +87,7 @@ router.get("/refresh", async (req, res) => {
     const { id } = verifyRefreshToken(refreshToken);
     const user = extractUserData(await User.findById(id));
     const accessToken = getAccessToken(user);
-    res.send({ accessToken });
+    res.send({ ...user, accessToken });
   } catch (err) {
     return ["TokenExpiredError", "JsonWebTokenError"].includes(err.name)
       ? res.status(403).send("Unauthorized to perform this action")
