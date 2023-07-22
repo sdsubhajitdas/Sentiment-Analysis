@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const { id: createdBy } = req.user;
-  const queries = await Query.find({ createdBy });
+  const queries = await Query.find({ createdBy }).sort({ createdAt: "desc" });
   res.send(queries);
 });
 
