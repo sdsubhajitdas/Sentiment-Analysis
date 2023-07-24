@@ -80,7 +80,7 @@ router.get("/refresh", async (req, res) => {
   let refreshToken = req.cookies?.refreshToken;
 
   if (!refreshToken) {
-    res.status(403).send("Unauthorized");
+    return res.status(403).send("Unauthorized");
   }
 
   try {
