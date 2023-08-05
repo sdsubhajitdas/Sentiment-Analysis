@@ -76,6 +76,10 @@ router.post("/login", async (req, res) => {
   res.status(400).send("Email or password incorrect");
 });
 
+router.get("/logout", (req, res) => {
+  res.cookie("refreshToken", "").send();
+});
+
 router.get("/refresh", async (req, res) => {
   let refreshToken = req.cookies?.refreshToken;
 
