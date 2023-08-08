@@ -11,7 +11,6 @@ function QueryList() {
   const { isLoading, data: { data: queries = [] } = { data: [] } } = useQuery({
     queryKey: ["listQueries"],
     queryFn: () => axios.get("/query"),
-    refetchInterval: 60000,
   });
 
   return (

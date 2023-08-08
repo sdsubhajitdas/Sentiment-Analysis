@@ -1,12 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import Profile from "./Profile";
+import QuickLinks from "./QuickLinks";
+import Separator from "./Separator";
 
 export default function Dashboard() {
-  const { data: { data: queries = [] } = { data: [] } } = useQuery({
-    queryKey: ["listQueries"],
-  });
   return (
-    <div className="m-3 ">
-      <h2 className="text-4xl text-center">Total queries : {queries.length}</h2>
+    <div className="m-3 space-y-3 md:mr-10">
+      <Profile />
+      <Separator />
+      <QuickLinks />
     </div>
   );
 }

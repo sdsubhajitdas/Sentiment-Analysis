@@ -10,7 +10,7 @@ export default function NewQueryForm() {
   const queryClient = useQueryClient();
   const { error, isError, isLoading, isSuccess, mutate } = useMutation({
     mutationFn: (newQueryFormData) => {
-      queryClient.invalidateQueries({ queryKey: ["listQueries"] });
+      queryClient.refetchQueries({ queryKey: ["listQueries"] });
       return axios.post("/query", newQueryFormData);
     },
   });
