@@ -1,19 +1,33 @@
+import { useEffect } from "react";
 import { useFormik } from "formik";
-import { newQueryFormSchema } from "../utils/validation";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import Alert from "../components/Alert";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { newQueryFormSchema } from "../utils/validation";
+import useSidebarNavigation from "../hooks/useSidebarNavigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { sidebarNavigationTypes } from "../context/SidebarNavigationContextProvider";
 
 export default function NewQueryForm() {
+  const { setSidebarNavigation } = useSidebarNavigation();
   const axios = useAxiosPrivate();
   const queryClient = useQueryClient();
-  const { error, isError, isLoading, isSuccess, mutate } = useMutation({
+  const { error, isError, isLoading, isSuccess, mutate, data } = useMutation({
     mutationFn: (newQueryFormData) => {
       queryClient.refetchQueries({ queryKey: ["listQueries"] });
       return axios.post("/query", newQueryFormData);
     },
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setSidebarNavigation((previous) => ({
+        ...previous,
+        type: sidebarNavigationTypes.QUERY_RESULT,
+        query: data.data,
+      }));
+    }
+  }, [isSuccess, setSidebarNavigation, data]);
 
   const formik = useFormik({
     initialValues: {
@@ -63,7 +77,6 @@ export default function NewQueryForm() {
         </button>
       </form>
       {isError && <Alert message={error.response.data} variant="error" />}
-      {isSuccess && <Alert message="Query processing WIP" variant="success" />}
     </>
   );
 }
