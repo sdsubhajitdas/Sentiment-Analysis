@@ -1,8 +1,8 @@
-import { Bookmark } from "lucide-react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useEffect } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { Loader2, Trash2 } from "lucide-react";
+import { Bookmark, Loader2, Trash2 } from "lucide-react";
 import useSidebarNavigation from "../hooks/useSidebarNavigation";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { sidebarNavigationTypes } from "../context/SidebarNavigationContextProvider";
 
 function QueryList() {
@@ -37,11 +37,22 @@ function QueryList() {
 function QueryItem({ query, selected }) {
   const { setSidebarNavigation } = useSidebarNavigation();
   const axios = useAxiosPrivate();
-  const { mutate, isLoading } = useMutation({
+  const queryClient = useQueryClient();
+  const { mutate, isLoading, isSuccess } = useMutation({
     mutationFn: ({ _id: queryId }) => {
+      queryClient.refetchQueries({ queryKey: ["listQueries"] });
       return axios.delete(`/query/${queryId}`);
     },
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setSidebarNavigation((previous) => ({
+        ...previous,
+        type: sidebarNavigationTypes.DASHBOARD,
+      }));
+    }
+  }, [isSuccess, setSidebarNavigation]);
 
   return (
     <li
