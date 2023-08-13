@@ -18,7 +18,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="flex gap-3 px-4 py-3 bg-teal-500 border-b-2 border-teal-700">
+    <nav className="fixed top-0 left-0 right-0 z-20 flex gap-3 px-4 py-3 bg-teal-500 border-b-2 border-teal-700">
       <div className="grow"></div>
       <Link
         to="/"

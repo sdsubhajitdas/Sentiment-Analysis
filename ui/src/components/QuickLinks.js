@@ -31,7 +31,7 @@ function QuickLink({ query }) {
 
   return (
     <div
-      className="p-5 bg-teal-100 rounded shadow-lg cursor-pointer"
+      className="relative p-5 bg-teal-100 rounded shadow-lg cursor-pointer pb-14"
       onClick={() => {
         setSidebarNavigation((previous) => ({
           ...previous,
@@ -43,7 +43,21 @@ function QuickLink({ query }) {
       <p className="italic font-medium text-gray-700 ">
         Processed at {moment(query.createdAt).format("llll")}
       </p>
-      <p className="mt-3 text-xl text-center ">{body}</p>
+      <p className="mt-3 text-xl text-center">{body}</p>
+      <p className="absolute text-justify align-bottom bottom-5 ">
+        Result:{" "}
+        <span
+          className={`italic font-medium ${
+            query.result === "NEUTRAL"
+              ? "text-gray-500"
+              : query.result === "POSITIVE"
+              ? "text-green-500"
+              : "text-red-500"
+          }`}
+        >
+          {query.result}
+        </span>
+      </p>
     </div>
   );
 }

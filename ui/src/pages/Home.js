@@ -21,7 +21,7 @@ export default function Home() {
       </div>
 
       {/* Main content Area */}
-      <div className="ml-[25%]">
+      <div className="ml-[25%] mt-28">
         {type === sidebarNavigationTypes.DASHBOARD && <Dashboard />}
         {type === sidebarNavigationTypes.NEW_QUERY && <NewQueryForm />}
         {type === sidebarNavigationTypes.QUERY_RESULT && (

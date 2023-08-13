@@ -26,11 +26,11 @@ export default function App() {
 
 function Screen() {
   return (
-    <>
+    <div className="static">
       <Navbar />
       {/* <div className="container"> */}
       <Outlet />
       {/* </div> */}
-    </>
+    </div>
   );
 }

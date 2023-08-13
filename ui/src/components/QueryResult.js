@@ -30,7 +30,18 @@ export default function QueryResult({ query }) {
           <p className="p-4 text-xl bg-gray-200 rounded">{queryFromDb.body}</p>
           <Separator />
           <p className="mt-5 text-2xl font-semibold text-center">
-            Result is: <span className="text-green-500">Positive</span>
+            Result is:{" "}
+            <span
+              className={
+                queryFromDb.result === "NEUTRAL"
+                  ? "text-gray-500"
+                  : queryFromDb.result === "POSITIVE"
+                  ? "text-green-500"
+                  : "text-red-500"
+              }
+            >
+              {queryFromDb.result}
+            </span>
           </p>
           <Separator />
           <div className="flex flex-col items-center">

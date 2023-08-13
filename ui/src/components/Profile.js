@@ -10,6 +10,26 @@ export default function Profile() {
     authentication: { user },
   } = useAuthentication();
 
+  let positiveCount = queries.filter(
+    (query) => query.result === "POSITIVE"
+  ).length;
+  let neutralCount = queries.filter(
+    (query) => query.result === "NEUTRAL"
+  ).length;
+  let negativeCount = queries.filter(
+    (query) => query.result === "NEGATIVE"
+  ).length;
+
+  let positive = parseInt(
+    (positiveCount / (positiveCount + neutralCount + negativeCount)) * 100
+  );
+  let neutral = parseInt(
+    (neutralCount / (positiveCount + neutralCount + negativeCount)) * 100
+  );
+  let negative = parseInt(
+    (negativeCount / (positiveCount + neutralCount + negativeCount)) * 100
+  );
+
   return (
     <>
       <h1 className="ml-[5%] text-4xl my-5 font-semibold">Profile Section</h1>
@@ -40,23 +60,25 @@ export default function Profile() {
         </div>
         <div className="grow min-w-[10rem] p-4 max-h-80 flex mr-5">
           <div className="my-auto space-y-2 text-xl font-medium text-center uppercase grow">
-            <span className="block text-green-600">Positive (+ve): 60%</span>
-            <span className="block text-red-600">Negative (-ve): 40%</span>
+            <span className="block text-green-600">Positive: {positive}%</span>
+            <span className="block text-gray-600">Neutral: {neutral}%</span>
+            <span className="block text-red-600">Negative: {negative}%</span>
           </div>
-          <PieChart />
+          <PieChart positive={positive} neutral={neutral} negative={negative} />
         </div>
       </div>
     </>
   );
 }
 
-function PieChart() {
+function PieChart({ positive, neutral, negative }) {
   return (
     <div
       className="h-full rounded-full aspect-square"
       style={{
-        background:
-          "repeating-conic-gradient(#ef4444 0% 40%, #22c55e 40% 100%)",
+        background: `repeating-conic-gradient(#ef4444 0% ${negative}%, #6b7280 ${negative}% ${
+          negative + neutral
+        }% ,#22c55e ${negative + neutral}% 100%)`,
       }}
     ></div>
   );
