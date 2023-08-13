@@ -66,6 +66,7 @@ router.delete("/:queryId", async (req, res) => {
       _id: queryId,
       createdBy: createdBy,
     }).exec();
+    await axios.delete(`/query/${queryId}`);
   } catch (err) {
     console.error(err);
   }
