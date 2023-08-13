@@ -47,7 +47,7 @@ router.post("/", async (req, res) => {
     if (data.imageUrl)
       query = await Query.findByIdAndUpdate(
         query._id,
-        { imageUrl: data?.imageUrl },
+        { imageUrl: data?.imageUrl, result: data?.result },
         { new: true }
       );
   } catch (err) {

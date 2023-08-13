@@ -9,7 +9,11 @@ const querySchema = Schema({
     type: String,
     default: "https://img.kpopmap.com/2019/03/Korea-Kpop-Agency.jpg", // NOT FOUND IMAGE
   },
-  result: String,
+  result: {
+    type: String,
+    enum: ["POSITIVE", "NEUTRAL", "NEGATIVE"],
+    default: "NEUTRAL",
+  },
   createdAt: { type: Date, default: Date.now },
 });
 

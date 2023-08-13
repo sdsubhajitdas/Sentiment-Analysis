@@ -1,4 +1,5 @@
 import os
+import random
 import matplotlib
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
@@ -13,3 +14,8 @@ def generate_wordcloud(text, query_id):
   plt.imshow(wordcloud, interpolation="bilinear")
   plt.axis('off')
   plt.savefig(os.path.join("assets",f'{query_id}.png'), format="png")
+
+
+def generate_model_output(text):
+  sentiment = random.choice([-1, 0, 1])
+  return sentiment

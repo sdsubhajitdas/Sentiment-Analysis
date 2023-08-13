@@ -1,7 +1,7 @@
 import os
 import json
 from flask import Flask,request,send_file
-from utils.generator import generate_wordcloud
+from utils.generator import generate_wordcloud, generate_model_output
 from utils.preprocessing import preprocess_text
 
 
@@ -18,13 +18,19 @@ def DELETE_query(query_id):
 @app.route("/query", methods=["POST"])
 def query():
   request_body = json.loads(request.data.decode())
+  outputEnum = {
+    -1: "NEGATIVE",
+    0: "NEUTRAL",
+    1: "POSITIVE"
+  }
   text = request_body["body"]
   query_id = request_body["id"]
   processed_text = preprocess_text(text)
+  predicted_sentiment = generate_model_output(processed_text)
   generate_wordcloud(text,query_id)
   response = {
-    "text": processed_text,
-    "imageUrl": f'http://localhost:5000/assets/{query_id}.png'
+    "imageUrl": f'http://localhost:5000/assets/{query_id}.png',
+    "result": outputEnum[predicted_sentiment]
   }
 
   return response
