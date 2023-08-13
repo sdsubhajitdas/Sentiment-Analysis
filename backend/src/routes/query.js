@@ -1,5 +1,6 @@
 const express = require("express");
 const { Query } = require("../models/Query");
+const axios = require("../utils/axios");
 
 const router = express.Router();
 
@@ -36,6 +37,22 @@ router.post("/", async (req, res) => {
   });
 
   query = await query.save();
+
+  try {
+    const { data } = await axios.post("/query", {
+      body: query.body,
+      id: query._id,
+    });
+
+    if (data.imageUrl)
+      query = await Query.findByIdAndUpdate(
+        query._id,
+        { imageUrl: data?.imageUrl },
+        { new: true }
+      );
+  } catch (err) {
+    console.log(err);
+  }
 
   res.status(201).send(query);
 });

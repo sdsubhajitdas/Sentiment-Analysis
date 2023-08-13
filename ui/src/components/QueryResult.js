@@ -38,7 +38,7 @@ export default function QueryResult({ query }) {
               Generated word cloud
             </span>
             <img
-              src="https://i0.wp.com/theperfectroundgolf.com/wp-content/uploads/2022/04/placeholder.png?w=1200&ssl=1"
+              src={queryFromDb.imageUrl}
               alt="word cloud"
               className="w-[600px] h-[400px] border-2 border-black"
             />
