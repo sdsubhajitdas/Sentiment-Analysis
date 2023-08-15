@@ -4,8 +4,10 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth");
 const queryRouter = require("./routes/query");
+const adminRouter = require("./routes/admin");
 const { checkAuthentication } = require("./middleware/authentication");
 const { storeAPIUsageData } = require("./middleware/statistic");
+const { checkAdminPrivilege } = require("./middleware/admin");
 
 require("dotenv").config();
 
@@ -25,6 +27,7 @@ app.use("/auth", authRouter);
 
 app.use(checkAuthentication);
 app.use("/query", queryRouter);
+app.use("/admin", [checkAdminPrivilege], adminRouter);
 
 mongoose.connect(process.env.MONGODB_URL).then(() => {
   console.log("MongoDB connection successful");
