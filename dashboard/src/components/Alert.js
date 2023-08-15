@@ -3,14 +3,20 @@ import { useState } from "react";
 
 export default function Alert({ variant, message }) {
   let [isHidden, setIsHidden] = useState(false);
-  const variantToColour = {
-    error: "red",
-    warn: "yellow",
-    success: "green",
+  const backgroundColour = {
+    error: "bg-red-300",
+    warn: "bg-yellow-300",
+    success: "bg-green-300",
   };
 
-  let alertCss = `relative py-4 m-3 mt-10 rounded-lg px-7 bg-${variantToColour[variant]}-300`;
-  let closeButtonCss = `absolute p-1 rounded-full right-3 top-2 hover:bg-${variantToColour[variant]}-400`;
+  const hoverColour = {
+    error: "hover:bg-red-400",
+    warn: "hover:bg-yellow-400",
+    success: "hover:bg-green-400",
+  };
+
+  let alertCss = `relative py-4 m-3 mt-10 rounded-lg px-7 ${backgroundColour[variant]}`;
+  let closeButtonCss = `absolute p-1 rounded-full right-3 top-2 ${hoverColour[variant]}`;
 
   if (isHidden) return null;
 
