@@ -1,14 +1,40 @@
 import React from "react";
-import { Ban, ShieldCheck, ShieldClose, Loader2 } from "lucide-react";
+import {
+  CheckCircle,
+  Ban,
+  ShieldCheck,
+  ShieldOff,
+  Loader2,
+} from "lucide-react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function UserTable() {
   const axios = useAxiosPrivate();
+  const queryClient = useQueryClient();
   const { isLoading, data: { data: users = [] } = { data: [] } } = useQuery({
     queryKey: ["listUsers"],
     queryFn: () => axios.get("/admin/users"),
   });
+  const { isLoading: isToggleStatusLoading, mutate: toggleStatus } =
+    useMutation({
+      mutationFn: (userId) => {
+        return axios.post("/admin/toggle-user-status", { userId });
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: "listUsers" });
+      },
+    });
+
+  const { isLoading: isToggleRoleLoading, mutate: toggleRole } = useMutation({
+    mutationFn: (userId) => {
+      return axios.post("/admin/toggle-admin-role", { userId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: "listUsers" });
+    },
+  });
+
   const tableHeaderCss = "border-r border-teal-700 px-2";
 
   return (
@@ -59,40 +85,58 @@ export default function UserTable() {
             </span>
             <div className="grid grid-cols-2 gap-4 px-2 basis-1/7">
               <button
-                className="relative py-1 rounded-lg hover:bg-teal-200 hover:after:visible
-              after:content-[attr(data-tip)]
-              after:absolute
-              after:left-0
-              after:right-0
-              after:text-sm
-              after:bg-black/75
-              after:text-white
-              after:mt-2
-              after:p-1
-              after:rounded
-              after:z-10
-              after:invisible"
-                data-tip="Disable User"
+                className="relative py-1 rounded-lg hover:bg-teal-200 hover:after:visible disabled:hover:bg-inherit disabled:text-gray-500
+                after:content-[attr(data-tip)]
+                after:absolute
+                after:left-0
+                after:right-0
+                after:text-sm
+                after:bg-black/75
+                after:text-white
+                after:mt-2
+                after:p-1
+                after:rounded
+                after:z-10
+                after:invisible"
+                disabled={isToggleStatusLoading}
+                data-tip={
+                  user.status === "INACTIVE" ? "Enable User" : "Disable User"
+                }
+                onClick={() => toggleStatus(user._id)}
               >
-                <Ban className="w-full" />
+                {user.status === "INACTIVE" ? (
+                  <CheckCircle className="w-full" />
+                ) : (
+                  <Ban className="w-full" />
+                )}
               </button>
               <button
-                className="relative py-1 rounded-lg hover:bg-teal-200 hover:after:visible
-              after:content-[attr(data-tip)]
-              after:absolute
-              after:left-0
-              after:right-0
-              after:text-sm
-              after:bg-black/75
-              after:text-white
-              after:mt-2
-              after:p-1
-              after:rounded
-              after:z-10
-              after:invisible"
-                data-tip="Grant Admin Access"
+                className="relative py-1 rounded-lg hover:bg-teal-200 hover:after:visible disabled:hover:bg-inherit disabled:text-gray-500
+                after:content-[attr(data-tip)]
+                after:absolute
+                after:left-0
+                after:right-0
+                after:text-sm
+                after:bg-black/75
+                after:text-white
+                after:mt-2
+                after:p-1
+                after:rounded
+                after:z-10
+                after:invisible"
+                disabled={isToggleRoleLoading}
+                data-tip={
+                  user.role === "USER"
+                    ? "Grant Admin Access"
+                    : "Deny Admin Access"
+                }
+                onClick={() => toggleRole(user._id)}
               >
-                <ShieldCheck className="w-full" />
+                {user.role === "USER" ? (
+                  <ShieldCheck className="w-full" />
+                ) : (
+                  <ShieldOff className="w-full" />
+                )}
               </button>
             </div>
           </div>
