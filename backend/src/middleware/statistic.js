@@ -1,7 +1,11 @@
 const { Statistic } = require("../models/Statistic");
 
 async function storeAPIUsageData(req, res, next) {
-  const ignoreApiPaths = ["GET /auth/refresh"];
+  const ignoreApiPaths = [
+    "GET /auth/refresh",
+    "GET /admin/stats",
+    "GET /admin/users",
+  ];
   let apiPath = `${req.method} ${
     req.originalUrl.match(/\/query\/[0-9a-fA-F]{0,24}/)
       ? "/query/:queryId"

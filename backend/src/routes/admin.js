@@ -1,5 +1,6 @@
 const express = require("express");
 const { User } = require("../models/User");
+const { Statistic } = require("../models/Statistic");
 
 const router = express.Router();
 
@@ -34,6 +35,11 @@ router.post("/toggle-admin-role", async (req, res) => {
   await user.save();
 
   res.status(202).send();
+});
+
+router.get("/stats", async (req, res) => {
+  const stats = await Statistic.find({}).sort({ date: "desc" });
+  res.send(stats);
 });
 
 module.exports = router;
