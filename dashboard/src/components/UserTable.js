@@ -39,7 +39,7 @@ export default function UserTable() {
 
   return (
     <div className="mt-10">
-      <h1 className="my-2 text-3xl">Users Table</h1>
+      <h2 className="my-2 text-3xl">Users Table</h2>
       <div className="flex flex-col rounded-lg">
         {/* Header */}
         <div className="flex p-2 text-2xl font-medium bg-teal-300 border-t border-teal-600 rounded-t-lg border-x">
