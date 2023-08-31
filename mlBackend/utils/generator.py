@@ -43,4 +43,4 @@ def generate_model_output(preprocessed_text):
       "confidence": confidence.item()  # Convert numpy.float64 to native float
   }
 
-  return result["sentiment"]
+  return -1 if result["sentiment"] == 0 else 1
